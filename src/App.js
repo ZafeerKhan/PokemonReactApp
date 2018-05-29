@@ -5,7 +5,6 @@ import $ from 'jquery';
 import Loader from './Loader.js';
 
 
-var numPokemon = 0;
 var Pokedex = require('pokedex-promise-v2');
 var options = {
   protocol: 'https',
@@ -24,7 +23,8 @@ class App extends Component {
       rows: [],
       value: "",
       name: "",
-      submitted: false
+      submitted: false,
+      numPokemon: 0
     };
 
     this.searchTypeChangeHandler = this.searchTypeChangeHandler.bind(this);
@@ -95,7 +95,7 @@ class App extends Component {
         console.log(searchResults);
 
         const pokemonOfType = searchResults.pokemon;
-        numPokemon = pokemonOfType.length;
+        this.setState({numPokemon: pokemonOfType.length})
 
         pokemonOfType.forEach(pokemon => {
           //console.log(pokemon.pokemon.name);
@@ -226,7 +226,7 @@ class App extends Component {
         }
         {
           this.state.rows.length === 0 && this.state.submitted &&
-          <Loader type={this.state.value} length={numPokemon}/>
+          <Loader type={this.state.value} length={this.state.numPokemon}/>
         }
         {
           !this.state.submitted &&
